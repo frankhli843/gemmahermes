@@ -5,10 +5,10 @@ One command to a working local Hermes assistant, regardless of your hardware.
 ```bash
 npm install -g github:gemmahermes/gemmahermes#main
 gemmahermes setup     # detect hardware, download model, verify
-gemmahermes chat      # start chatting
+gemmahermes chat      # open browser chat UI
 ```
 
-Requires Node.js 22+. No pre-installed Ollama or llama.cpp needed.
+Requires Node.js 22+. No pre-installed Ollama or llama.cpp needed. The `chat` command auto-detects your backend and opens a browser window with a clean chat interface.
 
 ---
 
@@ -24,23 +24,16 @@ After setup, start a conversation:
 gemmahermes chat
 ```
 
-This opens a terminal chat interface connected to your local Hermes model. Type messages, see responses with markdown rendering, and conversation history is preserved across the session.
-
-You can also send a single message directly:
-
-```bash
-gemmahermes chat --message "What can you help me with?"
-```
+This opens a web browser with a clean chat interface connected to your local Hermes model. Type messages, get streamed responses in real time, and conversation history is preserved for the session. The chat UI auto-detects your running backend (Ollama or llama.cpp) and the available model.
 
 Options:
 
-| Flag | Description |
-|------|-------------|
-| `--message <text>` | Send an initial message after connecting |
-| `--session <key>` | Session key (default: "main") |
-| `--thinking <level>` | Thinking level override |
-| `--history-limit <n>` | History entries to load (default: 200) |
-| `--timeout-ms <ms>` | Agent timeout in milliseconds |
+- `--port <port>` : Port for the chat UI server (default: auto-assigned)
+- `--backend-url <url>` : Backend API URL if auto-detection does not find it
+- `--model <id>` : Override the model identifier
+- `--no-open` : Start the server without opening the browser
+
+For a terminal-based chat interface, use `gemmahermes tui` instead.
 
 ## Setup details
 
