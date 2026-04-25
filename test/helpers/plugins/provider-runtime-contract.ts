@@ -199,7 +199,7 @@ export function describeAnthropicProviderRuntimeContract(
       });
 
       expect(hint).toContain("suggested profile: anthropic:oauth-user@example.com");
-      expect(hint).toContain("gemmaclaw doctor --yes");
+      expect(hint).toContain("gemmahermes doctor --yes");
     });
 
     it("owns usage snapshot fetching", async () => {

@@ -21,25 +21,25 @@ const ROOT_COMMANDS_HINT =
   "Hint: commands suffixed with * have subcommands. Run <command> --help for details.";
 
 const EXAMPLES = [
-  ["gemmaclaw models --help", "Show detailed help for the models command."],
+  ["gemmahermes models --help", "Show detailed help for the models command."],
   [
-    "gemmaclaw channels login --verbose",
+    "gemmahermes channels login --verbose",
     "Link personal WhatsApp Web and show QR + connection logs.",
   ],
   [
-    'gemmaclaw message send --target +15555550123 --message "Hi" --json',
+    'gemmahermes message send --target +15555550123 --message "Hi" --json',
     "Send via your web session and print JSON result.",
   ],
-  ["gemmaclaw gateway --port 18789", "Run the WebSocket Gateway locally."],
-  ["gemmaclaw --dev gateway", "Run a dev Gateway (isolated state/config) on ws://127.0.0.1:19001."],
-  ["gemmaclaw gateway --force", "Kill anything bound to the default gateway port, then start it."],
-  ["gemmaclaw gateway ...", "Gateway control via WebSocket."],
+  ["gemmahermes gateway --port 18789", "Run the WebSocket Gateway locally."],
+  ["gemmahermes --dev gateway", "Run a dev Gateway (isolated state/config) on ws://127.0.0.1:19001."],
+  ["gemmahermes gateway --force", "Kill anything bound to the default gateway port, then start it."],
+  ["gemmahermes gateway ...", "Gateway control via WebSocket."],
   [
-    'gemmaclaw agent --to +15555550123 --message "Run summary" --deliver',
+    'gemmahermes agent --to +15555550123 --message "Run summary" --deliver',
     "Talk directly to the agent using the Gateway; optionally send the WhatsApp reply.",
   ],
   [
-    'gemmaclaw message send --channel telegram --target @mychat --message "Hi"',
+    'gemmahermes message send --channel telegram --target @mychat --message "Hi"',
     "Send via your Telegram bot.",
   ],
 ] as const;
@@ -114,7 +114,7 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
     hasFlag(process.argv, "--version") ||
     hasRootVersionAlias(process.argv)
   ) {
-    const brandName = CLI_NAME === "openclaw" ? "OpenClaw" : "Gemmaclaw";
+    const brandName = CLI_NAME === "openclaw" ? "OpenClaw" : "GemmaHermes";
     const commit = resolveCommitHash({ moduleUrl: import.meta.url });
     console.log(
       commit

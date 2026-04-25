@@ -1,4 +1,3 @@
-import { createGemmaCppManager } from "./gemmacpp-manager.js";
 import { createLlamaCppManager } from "./llamacpp-manager.js";
 import { DEFAULT_MODELS } from "./model-registry.js";
 import { createOllamaManager } from "./ollama-manager.js";
@@ -17,8 +16,6 @@ export function createRuntimeManager(backend: BackendId): RuntimeManager {
       return createOllamaManager();
     case "llama-cpp":
       return createLlamaCppManager();
-    case "gemma-cpp":
-      return createGemmaCppManager();
     default:
       throw new Error(`Unknown backend: ${backend as string}`);
   }
@@ -47,7 +44,7 @@ export async function provision(opts: ProvisionOpts): Promise<ProvisionResult> {
   }
 
   // Step 2+3: Pull model and start runtime.
-  // Ollama can start first then pull via API. llama.cpp/gemma.cpp need the model
+  // Ollama can start first then pull via API. llama.cpp needs the model
   // file on disk before the server starts.
   let handle: RuntimeHandle;
 
@@ -92,8 +89,7 @@ export async function verifyCompletion(
 ): Promise<{ ok: boolean; content: string; error?: string }> {
   try {
     // Determine the correct endpoint path.
-    // Ollama uses /v1/chat/completions, llama.cpp uses /v1/chat/completions,
-    // gemma.cpp shim uses /v1/chat/completions.
+    // Ollama uses /v1/chat/completions, llama.cpp uses /v1/chat/completions.
     const url = `${apiBaseUrl}/v1/chat/completions`;
 
     const response = await fetch(url, {

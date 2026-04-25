@@ -1,20 +1,20 @@
 {
-  "name": "gemmaclaw",
+  "name": "gemmahermes",
   "version": "2026.4.22",
-  "description": "Gemma-first personal AI assistant, auto-configured for your hardware. Built on OpenClaw.",
+  "description": "Hermes-first personal AI assistant, auto-configured for your hardware. Built on OpenClaw.",
   "keywords": [],
-  "homepage": "https://github.com/gemmaclaw/gemmaclaw#readme",
+  "homepage": "https://github.com/gemmahermes/gemmahermes#readme",
   "bugs": {
-    "url": "https://github.com/gemmaclaw/gemmaclaw/issues"
+    "url": "https://github.com/gemmahermes/gemmahermes/issues"
   },
   "license": "MIT",
   "author": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gemmaclaw/gemmaclaw.git"
+    "url": "git+https://github.com/gemmahermes/gemmahermes.git"
   },
   "bin": {
-    "gemmaclaw": "gemmaclaw.mjs"
+    "gemmahermes": "gemmahermes.mjs"
   },
   "directories": {
     "doc": "docs",
@@ -23,7 +23,7 @@
   "files": [
     "CHANGELOG.md",
     "LICENSE",
-    "gemmaclaw.mjs",
+    "gemmahermes.mjs",
     "openclaw.mjs",
     "README.md",
     "assets/",
@@ -1315,8 +1315,8 @@
     "gateway:dev": "OPENCLAW_SKIP_CHANNELS=1 node scripts/run-node.mjs --dev gateway",
     "gateway:dev:reset": "OPENCLAW_SKIP_CHANNELS=1 node scripts/run-node.mjs --dev gateway --reset",
     "gateway:watch": "node scripts/watch-node.mjs gateway --force",
-    "gemmaclaw": "node scripts/run-node.mjs",
-    "gemmaclaw:rpc": "node scripts/run-node.mjs agent --mode rpc --json",
+    "gemmahermes": "node scripts/run-node.mjs",
+    "gemmahermes:rpc": "node scripts/run-node.mjs agent --mode rpc --json",
     "gen:host-env-policy:swift": "node scripts/generate-host-env-security-policy-swift.mjs --write",
     "ghsa:patch": "node scripts/ghsa-patch.mjs",
     "ios:beta": "bash scripts/ios-beta-release.sh",

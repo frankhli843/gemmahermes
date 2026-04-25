@@ -51,20 +51,20 @@ For how skills are loaded and prioritized, see [Skills](/tools/skills).
   </Step>
 
   <Step title="Load the skill">
-    Start a new session so Gemmaclaw picks up the skill:
+    Start a new session so GemmaHermes picks up the skill:
 
     ```bash
     # From chat
     /new
 
     # Or restart the gateway
-    gemmaclaw gateway restart
+    gemmahermes gateway restart
     ```
 
     Verify the skill loaded:
 
     ```bash
-    gemmaclaw skills list
+    gemmahermes skills list
     ```
 
   </Step>
@@ -73,7 +73,7 @@ For how skills are loaded and prioritized, see [Skills](/tools/skills).
     Send a message that should trigger the skill:
 
     ```bash
-    gemmaclaw agent --message "give me a greeting"
+    gemmahermes agent --message "give me a greeting"
     ```
 
     Or just chat with the agent and ask for a greeting.
@@ -97,7 +97,7 @@ The YAML frontmatter supports these fields:
 
 - **Be concise** — instruct the model on _what_ to do, not how to be an AI
 - **Safety first** — if your skill uses `exec`, ensure prompts don't allow arbitrary command injection from untrusted input
-- **Test locally** — use `gemmaclaw agent --message "..."` to test before sharing
+- **Test locally** — use `gemmahermes agent --message "..."` to test before sharing
 - **Use ClawHub** — browse and contribute skills at [ClawHub](https://clawhub.ai)
 
 ## Where skills live
@@ -108,7 +108,7 @@ The YAML frontmatter supports these fields:
 | `\<workspace\>/.agents/skills/`  | High       | Per-workspace agent   |
 | `~/.agents/skills/`              | Medium     | Shared agent profile  |
 | `~/.openclaw/skills/`            | Medium     | Shared (all agents)   |
-| Bundled (shipped with Gemmaclaw) | Low        | Global                |
+| Bundled (shipped with GemmaHermes) | Low        | Global                |
 | `skills.load.extraDirs`          | Lowest     | Custom shared folders |
 
 ## Related

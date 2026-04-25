@@ -26,7 +26,7 @@ describe("resetCommand", () => {
       dryRun: true,
     });
 
-    expect(runtime.log).toHaveBeenCalledWith(expect.stringContaining("gemmaclaw backup create"));
+    expect(runtime.log).toHaveBeenCalledWith(expect.stringContaining("gemmahermes backup create"));
   });
 
   it("does not recommend backup for config-only reset", async () => {
@@ -38,7 +38,7 @@ describe("resetCommand", () => {
     });
 
     expect(runtime.log).not.toHaveBeenCalledWith(
-      expect.stringContaining("gemmaclaw backup create"),
+      expect.stringContaining("gemmahermes backup create"),
     );
   });
 });

@@ -33,7 +33,7 @@ export function registerSetupCommand(program: Command) {
     .option("--remote-token <token>", "Remote Gateway token (optional)")
     .action(async (opts, command) => {
       await runCommandWithRuntime(defaultRuntime, async () => {
-        // gemmaclaw: route to Gemma setup wizard by default.
+        // gemmahermes: route to Gemma setup wizard by default.
         // Use --workspace-only or --wizard to get the original OpenClaw setup behavior.
         const hasWorkspaceOnlyFlags = hasExplicitOptions(command, [
           "wizard",

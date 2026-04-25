@@ -4,7 +4,7 @@
  *
  * Launched as a child process by the gemma.cpp RuntimeManager.
  * Not intended for production use; this exists so that the rest of the
- * gemmaclaw codebase can talk to gemma.cpp through the same OpenAI-compat
+ * gemmahermes codebase can talk to gemma.cpp through the same OpenAI-compat
  * provider path used by Ollama and llama.cpp.
  */
 

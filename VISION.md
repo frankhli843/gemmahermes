@@ -1,8 +1,8 @@
-## Gemmaclaw Vision
+## GemmaHermes Vision
 
-Gemmaclaw makes it easy to run the best Gemma configuration for your hardware, out of the box.
+GemmaHermes makes it easy to run the best Gemma configuration for your hardware, out of the box.
 
-Built on top of [OpenClaw](https://github.com/openclaw/openclaw), Gemmaclaw inherits its multi-channel AI gateway and extends it with Gemma-first hardware auto-detection, model selection, and provisioning. This document describes both the upstream OpenClaw direction we build on and the Gemmaclaw-specific goals.
+Built on top of [OpenClaw](https://github.com/openclaw/openclaw), GemmaHermes inherits its multi-channel AI gateway and extends it with Gemma-first hardware auto-detection, model selection, and provisioning. This document describes both the upstream OpenClaw direction we build on and the GemmaHermes-specific goals.
 
 Project overview and developer docs: [`README.md`](README.md)
 Contribution guide: [`CONTRIBUTING.md`](CONTRIBUTING.md)

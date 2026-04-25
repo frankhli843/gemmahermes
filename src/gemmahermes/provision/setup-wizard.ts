@@ -18,11 +18,10 @@ export type SetupProfile = {
  * Select the safest backend for quick setup.
  *
  * Rules:
- *   1. Never default to gemma-cpp (requires HF_TOKEN + build tools).
- *   2. NVIDIA GPU detected -> Ollama (best GPU acceleration).
- *   3. x86_64 CPU, no GPU -> llama-cpp (efficient CPU inference, pre-built binary).
- *   4. arm64 or other arch -> Ollama (arm64 binary available, llama-cpp only ships x64).
- *   5. If a system binary is already installed, prefer that backend.
+ *   1. NVIDIA GPU detected -> Ollama (best GPU acceleration).
+ *   2. x86_64 CPU, no GPU -> llama-cpp (efficient CPU inference, pre-built binary).
+ *   3. arm64 or other arch -> Ollama (arm64 binary available, llama-cpp only ships x64).
+ *   4. If a system binary is already installed, prefer that backend.
  */
 export function selectQuickProfile(hw: HardwareInfo, tools: SystemTools): SetupProfile {
   // If the user already has a backend installed, prefer it (system-first).
@@ -72,25 +71,6 @@ export function selectQuickProfile(hw: HardwareInfo, tools: SystemTools): SetupP
  * Returns null if OK, or an error message if not.
  */
 export function validateBackendChoice(backend: BackendId, tools: SystemTools): string | null {
-  if (backend === "gemma-cpp") {
-    if (!tools.gitInstalled) {
-      return "gemma.cpp requires git, which is not installed.";
-    }
-    if (!tools.cmakeInstalled) {
-      return "gemma.cpp requires cmake, which is not installed.";
-    }
-    if (!tools.cppCompilerInstalled) {
-      return "gemma.cpp requires a C++ compiler (g++ or clang++), which is not installed.";
-    }
-    if (!process.env.HF_TOKEN) {
-      return (
-        "gemma.cpp requires HF_TOKEN to download gated Gemma models.\n" +
-        "  1. Create a token at https://huggingface.co/settings/tokens\n" +
-        "  2. Accept the Gemma license at https://huggingface.co/google/gemma-2-2b-it\n" +
-        '  3. Set: export HF_TOKEN="hf_..."'
-      );
-    }
-  }
   if (backend === "llama-cpp" && process.arch !== "x64") {
     return `llama.cpp pre-built binaries are x86_64 only. Your system is ${process.arch}. Consider using Ollama instead.`;
   }
@@ -153,14 +133,11 @@ export async function runAdvancedWizard(
   io.log(
     `  2) llama-cpp - Efficient CPU inference (${formatModelSize(DEFAULT_MODELS["llama-cpp"].sizeBytes)} default model)`,
   );
-  io.log(
-    `  3) gemma-cpp - CPU-first, requires cmake/g++/HF_TOKEN (${formatModelSize(DEFAULT_MODELS["gemma-cpp"].sizeBytes)} default model)`,
-  );
   io.log("");
 
   let backend: BackendId = "ollama";
   for (;;) {
-    const input = await io.prompt("Backend [1/2/3, default=1]: ");
+    const input = await io.prompt("Backend [1/2, default=1]: ");
     const choice = input.trim() || "1";
     if (choice === "1" || choice === "ollama") {
       backend = "ollama";
@@ -170,11 +147,7 @@ export async function runAdvancedWizard(
       backend = "llama-cpp";
       break;
     }
-    if (choice === "3" || choice === "gemma-cpp") {
-      backend = "gemma-cpp";
-      break;
-    }
-    io.error(`Invalid choice: "${choice}". Enter 1, 2, or 3.`);
+    io.error(`Invalid choice: "${choice}". Enter 1 or 2.`);
   }
 
   // Validate the backend choice.
@@ -197,7 +170,7 @@ export async function runAdvancedWizard(
   const model = modelInput.trim() || undefined;
 
   // 3. Port selection.
-  const defaultPort = backend === "ollama" ? 11434 : backend === "llama-cpp" ? 8080 : 11436;
+  const defaultPort = backend === "ollama" ? 11434 : 8080;
   const portInput = await io.prompt(`Port [default: ${defaultPort}]: `);
   let port = defaultPort;
   if (portInput.trim()) {

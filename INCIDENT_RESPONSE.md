@@ -1,4 +1,4 @@
-# Gemmaclaw Incident Response Plan
+# GemmaHermes Incident Response Plan
 
 ## 1. Detection and triage
 

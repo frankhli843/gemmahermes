@@ -11,11 +11,11 @@ export async function setupGemmaCommand(
 ): Promise<void> {
   // Lazy-load to keep CLI startup fast.
   const { detectHardware, detectSystemTools, formatHardwareInfo } =
-    await import("../gemmaclaw/provision/hardware.js");
+    await import("../gemmahermes/provision/hardware.js");
   const { selectQuickProfile, runAdvancedWizard, createStdioWizardIO, formatModelSize } =
-    await import("../gemmaclaw/provision/setup-wizard.js");
-  const { provision, verifyCompletion } = await import("../gemmaclaw/provision/provision.js");
-  const { DEFAULT_MODELS } = await import("../gemmaclaw/provision/model-registry.js");
+    await import("../gemmahermes/provision/setup-wizard.js");
+  const { provision, verifyCompletion } = await import("../gemmahermes/provision/provision.js");
+  const { DEFAULT_MODELS } = await import("../gemmahermes/provision/model-registry.js");
 
   runtime.log("");
   runtime.log("Detecting hardware...");
@@ -67,7 +67,7 @@ export async function setupGemmaCommand(
     if (verification.ok) {
       runtime.log(`Smoke test passed. Response: "${verification.content}"`);
       runtime.log("");
-      runtime.log("Setup complete! Your Gemma assistant is ready.");
+      runtime.log("Setup complete! Your Hermes assistant is ready.");
       runtime.log(`  API: ${result.handle.apiBaseUrl}/v1/chat/completions`);
       runtime.log(`  Model: ${result.modelId}`);
       runtime.log(`  PID: ${result.handle.pid}`);
@@ -77,7 +77,7 @@ export async function setupGemmaCommand(
       runtime.error(`Smoke test failed: ${verification.error}`);
       runtime.error("The backend started but could not generate a response.");
       runtime.error(
-        "Try running again or use 'gemmaclaw setup --advanced' to pick a different backend.",
+        "Try running again or use 'gemmahermes setup --advanced' to pick a different backend.",
       );
       await result.handle.stop();
       runtime.exit(1);
@@ -88,8 +88,8 @@ export async function setupGemmaCommand(
     runtime.error("");
     runtime.error("Troubleshooting:");
     runtime.error("  - Check network connectivity (runtimes and models are downloaded)");
-    runtime.error("  - Try 'gemmaclaw setup --advanced' to pick a different backend");
-    runtime.error("  - See 'gemmaclaw provision --help' for manual control");
+    runtime.error("  - Try 'gemmahermes setup --advanced' to pick a different backend");
+    runtime.error("  - See 'gemmahermes provision --help' for manual control");
     runtime.exit(1);
   }
 }

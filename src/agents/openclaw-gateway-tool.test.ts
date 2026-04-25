@@ -134,7 +134,7 @@ describe("gateway tool", () => {
           };
           expect(parsed.payload?.kind).toBe("restart");
           expect(parsed.payload?.doctorHint).toBe(
-            "Run: gemmaclaw --profile isolated doctor --non-interactive",
+            "Run: gemmahermes --profile isolated doctor --non-interactive",
           );
         },
       );

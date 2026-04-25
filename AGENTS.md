@@ -4,8 +4,8 @@ Telegraph style. Root rules only. Read scoped `AGENTS.md` before touching a subt
 
 ## Start
 
-- Repo: `https://github.com/gemmaclaw/gemmaclaw`
-- Note: this repo is Gemmaclaw (Gemma-specific project). It is not Frank's `frankclaw` repo that Doramon runs on, do not mix them up.
+- Repo: `https://github.com/gemmahermes/gemmahermes`
+- Note: this repo is GemmaHermes (Hermes-specific project). It is not Frank's `frankclaw` repo that Doramon runs on, do not mix them up.
 - Replies: repo-root file refs only, e.g. `extensions/telegram/src/index.ts:80`. No absolute paths, no `~/`.
 - CODEOWNERS: maintenance/refactors/tests are ok. For larger behavior, product, security, or ownership-sensitive changes, get a listed owner request/review first.
 - First pass: run docs list (`pnpm docs:list`; ignore if unavailable), then read only relevant docs/guides.
@@ -40,7 +40,7 @@ Scoped guides:
 ## Architecture
 
 - Core must stay extension-agnostic. No core special cases for bundled plugin/provider/channel ids when manifest/registry/capability contracts can express it.
-- Extensions cross into core only via `gemmaclaw/plugin-sdk/*` (or upstream `openclaw/plugin-sdk/*`), manifest metadata, injected runtime helpers, and documented local barrels (`api.ts`, `runtime-api.ts`).
+- Extensions cross into core only via `gemmahermes/plugin-sdk/*` (or upstream `openclaw/plugin-sdk/*`), manifest metadata, injected runtime helpers, and documented local barrels (`api.ts`, `runtime-api.ts`).
 - Extension production code must not import core `src/**`, `src/plugin-sdk-internal/**`, another extension's `src/**`, or relative paths outside its package.
 - Core code/tests must not deep-import plugin internals (`extensions/*/src/**`, `onboard.js`). Use plugin `api.ts` / public SDK facade / generic contract.
 - Extension-owned behavior stays in the extension: legacy repair, detection, onboarding, auth/provider defaults, provider tools/settings.
@@ -58,7 +58,7 @@ Scoped guides:
 
 - Runtime: Node 22+. Keep Node and Bun paths working.
 - Install: `pnpm install` (Bun supported; keep lockfiles/patches aligned if touched).
-- Dev CLI: `pnpm gemmaclaw ...` or `pnpm dev`.
+- Dev CLI: `pnpm gemmahermes ...` or `pnpm dev`.
 - Build: `pnpm build`
 - Smart local gate: `pnpm check:changed` (scoped typecheck/lint/guards + relevant tests)
 - Explain smart gate: `pnpm changed:lanes --json`
@@ -86,7 +86,7 @@ Scoped guides:
   - `pnpm lint:apps`: Swift/app surface, separate from TS lint
   - `pnpm lint:all`: legacy comparison lane
 - Local heavy-check behavior: `OPENCLAW_LOCAL_CHECK=1` default; `OPENCLAW_LOCAL_CHECK_MODE=throttled|full`; `OPENCLAW_LOCAL_CHECK=0` for CI/shared runs.
-- Local validation is local-first. Do not default to Blacksmith/Testbox for routine Gemmaclaw iteration; it burns warm caches and startup time. Use repo `pnpm` lanes first, then reach for remote CI/Testbox only for parity-only failures, secrets/services, or when explicitly requested.
+- Local validation is local-first. Do not default to Blacksmith/Testbox for routine GemmaHermes iteration; it burns warm caches and startup time. Use repo `pnpm` lanes first, then reach for remote CI/Testbox only for parity-only failures, secrets/services, or when explicitly requested.
 
 ## Gates
 
@@ -120,7 +120,7 @@ Scoped guides:
 - Classes: no prototype mixins/mutations. Use explicit inheritance/composition. Tests prefer per-instance stubs.
 - Comments: brief only for non-obvious logic.
 - File size: split around ~700 LOC when it improves clarity/testability.
-- Product naming: **Gemmaclaw** product/docs; `gemmaclaw` CLI. Internal paths/config still use `openclaw` for upstream compatibility.
+- Product naming: **GemmaHermes** product/docs; `gemmahermes` CLI. Internal paths/config still use `openclaw` for upstream compatibility.
 - Written English: American spelling.
 
 ## Tests
@@ -180,7 +180,7 @@ Scoped guides:
 - Before simulator/emulator testing, check connected real iOS/Android devices first.
 - "restart iOS/Android apps" = rebuild/reinstall/relaunch, not kill/launch.
 - SwiftUI: prefer Observation (`@Observable`, `@Bindable`) over new `ObservableObject`.
-- mac gateway: use app or `gemmaclaw gateway restart/status --deep`; avoid ad-hoc tmux gateway sessions. Rebuild mac app locally, not over SSH.
+- mac gateway: use app or `gemmahermes gateway restart/status --deep`; avoid ad-hoc tmux gateway sessions. Rebuild mac app locally, not over SSH.
 - mac logs: `./scripts/clawlog.sh`.
 - Version bump touches: `package.json`, `apps/android/app/build.gradle.kts`, `apps/ios/version.json` then `pnpm ios:version:sync`, `apps/macos/.../Info.plist`, `docs/install/updating.md`. Appcast only for Sparkle release.
 - iOS Team ID: `security find-identity -p codesigning -v`; fallback `defaults read com.apple.dt.Xcode IDEProvisioningTeamIdentifiers`.
@@ -194,7 +194,7 @@ Scoped guides:
 
 ## Misc Footguns
 
-- Rebrand/migration/config warnings: run `gemmaclaw doctor`.
+- Rebrand/migration/config warnings: run `gemmahermes doctor`.
 - Never edit `node_modules`.
 - Local-only `.agents` ignores: use `.git/info/exclude`, not repo `.gitignore`.
 - CLI progress: use `src/cli/progress.ts`; status tables: `src/terminal/table.ts`.
