@@ -88,10 +88,10 @@ export function runRuntimePostBuild(params = {}) {
   try {
     stageBundledPluginRuntimeDeps(params);
   } catch (err) {
-    // During git-install builds (GEMMACLAW_PREPARING=1), staging failures are
+    // During git-install builds (GEMMAHERMES_PREPARING=1), staging failures are
     // non-fatal. Plugins whose runtime deps failed to stage will degrade at
-    // runtime, but the core CLI (gemmaclaw setup, gemmaclaw --version) works.
-    if (process.env.GEMMACLAW_PREPARING === "1") {
+    // runtime, but the core CLI (gemmahermes setup, gemmahermes --version) works.
+    if (process.env.GEMMAHERMES_PREPARING === "1") {
       console.warn(
         `[runtime-postbuild] staging runtime deps failed (non-fatal in git-install): ${err.message}`,
       );

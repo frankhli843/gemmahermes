@@ -23,7 +23,7 @@ describe("uninstallCommand", () => {
       dryRun: true,
     });
 
-    expect(runtime.log).toHaveBeenCalledWith(expect.stringContaining("gemmaclaw backup create"));
+    expect(runtime.log).toHaveBeenCalledWith(expect.stringContaining("gemmahermes backup create"));
   });
 
   it("does not recommend backup for service-only uninstall", async () => {
@@ -35,7 +35,7 @@ describe("uninstallCommand", () => {
     });
 
     expect(runtime.log).not.toHaveBeenCalledWith(
-      expect.stringContaining("gemmaclaw backup create"),
+      expect.stringContaining("gemmahermes backup create"),
     );
   });
 });

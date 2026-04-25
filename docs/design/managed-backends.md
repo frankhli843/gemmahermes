@@ -1,6 +1,6 @@
 # Design: Self-Managed Backends
 
-Gemmaclaw provisions and manages three local LLM backends so that users can run Gemma models without pre-installing any runtime. This document describes the architecture.
+GemmaHermes provisions and manages three local LLM backends so that users can run Gemma models without pre-installing any runtime. This document describes the architecture.
 
 ## Backend Choices
 
@@ -12,10 +12,10 @@ Gemmaclaw provisions and manages three local LLM backends so that users can run 
 
 ## Directory Layout
 
-All managed files live under `$GEMMACLAW_HOME` (default `~/.gemmaclaw`):
+All managed files live under `$GEMMAHERMES_HOME` (default `~/.gemmahermes`):
 
 ```
-~/.gemmaclaw/
+~/.gemmahermes/
   runtimes/
     ollama/           # Ollama binary (single file, chmod 755)
     llama-cpp/        # Extracted llama.cpp release (bin/llama-server)
@@ -49,7 +49,7 @@ No persistent daemon or PID file is used. The caller (CLI or E2E harness) owns t
 
 ## OpenAI-Compatible API Surface
 
-All three backends expose (or are shimmed to expose) `/v1/chat/completions`. This lets the rest of Gemmaclaw treat them uniformly through the same OpenAI-compatible provider path:
+All three backends expose (or are shimmed to expose) `/v1/chat/completions`. This lets the rest of GemmaHermes treat them uniformly through the same OpenAI-compatible provider path:
 
 - **Ollama**: native `/v1/chat/completions` (built-in).
 - **llama.cpp**: native `/v1/chat/completions` (built-in).
@@ -85,7 +85,7 @@ Each backend has a pinned smallest-known-working model (see `model-registry.ts`)
 
 ## E2E Testing
 
-The Docker E2E harness (`test/e2e/Dockerfile.provision`) builds Gemmaclaw from source in a clean container, then runs `provision-e2e.sh` which:
+The Docker E2E harness (`test/e2e/Dockerfile.provision`) builds GemmaHermes from source in a clean container, then runs `provision-e2e.sh` which:
 
 1. Provisions each backend (install runtime, pull model).
 2. Sends an independent `curl` request to `/v1/chat/completions`.

@@ -1,8 +1,8 @@
 import path from "node:path";
 
-export type BackendId = "ollama" | "llama-cpp" | "gemma-cpp";
+export type BackendId = "ollama" | "llama-cpp";
 
-export const ALL_BACKENDS: readonly BackendId[] = ["ollama", "llama-cpp", "gemma-cpp"] as const;
+export const ALL_BACKENDS: readonly BackendId[] = ["ollama", "llama-cpp"] as const;
 
 export type ProvisionProgress = (message: string) => void;
 
@@ -38,14 +38,14 @@ export type ProvisionOpts = {
   progress?: ProvisionProgress;
 };
 
-export function resolveGemmaclawHome(): string {
-  return process.env.GEMMACLAW_HOME ?? path.join(process.env.HOME ?? "/tmp", ".gemmaclaw");
+export function resolveGemmaHermesHome(): string {
+  return process.env.GEMMAHERMES_HOME ?? path.join(process.env.HOME ?? "/tmp", ".gemmahermes");
 }
 
 export function resolveRuntimeDir(backend: BackendId): string {
-  return path.join(resolveGemmaclawHome(), "runtimes", backend);
+  return path.join(resolveGemmaHermesHome(), "runtimes", backend);
 }
 
 export function resolveModelsDir(backend: BackendId): string {
-  return path.join(resolveGemmaclawHome(), "models", backend);
+  return path.join(resolveGemmaHermesHome(), "models", backend);
 }

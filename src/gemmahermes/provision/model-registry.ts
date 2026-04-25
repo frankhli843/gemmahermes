@@ -36,35 +36,24 @@ export const LLAMACPP_RUNTIME: RuntimeArtifact = {
     "https://github.com/ggerganov/llama.cpp/releases/download/{version}/llama-{version}-bin-ubuntu-x64.zip",
 };
 
-export const GEMMACPP_REPO = "https://github.com/google/gemma.cpp.git";
-export const GEMMACPP_TAG = "v0.1.0";
-
 // -----------------------------------------------------------------------
 // Default models (smallest known-working for each backend)
 // -----------------------------------------------------------------------
 
 export const DEFAULT_MODELS: Record<BackendId, ModelArtifact> = {
   ollama: {
-    id: "gemma3:1b",
-    displayName: "Gemma 3 1B (Ollama)",
+    id: "hermes3:8b",
+    displayName: "Hermes 3 8B (Ollama)",
     backend: "ollama",
-    ollamaTag: "gemma3:1b",
-    sizeBytes: 815_000_000,
+    ollamaTag: "hermes3:8b",
+    sizeBytes: 4_900_000_000,
   },
   "llama-cpp": {
-    id: "tinyllama-1.1b-chat-v1.0.Q2_K",
-    displayName: "TinyLlama 1.1B Chat Q2_K (GGUF)",
+    id: "Hermes-3-Llama-3.1-8B.Q4_K_M",
+    displayName: "Hermes 3 Llama 3.1 8B Q4_K_M (GGUF)",
     backend: "llama-cpp",
-    url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q2_K.gguf",
-    sizeBytes: 482_000_000,
-  },
-  "gemma-cpp": {
-    id: "gemma-2-2b-it",
-    displayName: "Gemma 2 2B IT (gemma.cpp)",
-    backend: "gemma-cpp",
-    // gemma.cpp uses its own weight format; weights are downloaded via HuggingFace.
-    // The exact URL depends on HF auth. Model download is handled by the manager.
-    sizeBytes: 5_000_000_000,
+    url: "https://huggingface.co/NousResearch/Hermes-3-Llama-3.1-8B-GGUF/resolve/main/Hermes-3-Llama-3.1-8B.Q4_K_M.gguf",
+    sizeBytes: 4_920_000_000,
   },
 };
 

@@ -162,10 +162,10 @@ describe("handleBashChatCommand stop", () => {
       sessionKey: "agent:target:telegram:direct:target-session",
     });
     expect(result.text).toContain(
-      "gemmaclaw sandbox explain --session agent:target:telegram:direct:target-session",
+      "gemmahermes sandbox explain --session agent:target:telegram:direct:target-session",
     );
     expect(result.text).not.toContain(
-      "gemmaclaw sandbox explain --session agent:main:telegram:slash-session",
+      "gemmahermes sandbox explain --session agent:main:telegram:slash-session",
     );
   });
 });

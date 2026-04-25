@@ -45,7 +45,7 @@ export function tryHandleRootVersionFastPath(
   resolveVersion()
     .then(({ VERSION, resolveCommitHash }) => {
       const commit = resolveCommitHash({ moduleUrl: deps.moduleUrl ?? import.meta.url });
-      output(commit ? `Gemmaclaw ${VERSION} (${commit})` : `Gemmaclaw ${VERSION}`);
+      output(commit ? `GemmaHermes ${VERSION} (${commit})` : `GemmaHermes ${VERSION}`);
       exit(0);
     })
     .catch(onError);

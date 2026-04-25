@@ -1,6 +1,6 @@
 services:
-  gemmaclaw-gateway:
-    image: ${OPENCLAW_IMAGE:-gemmaclaw:local}
+  gemmahermes-gateway:
+    image: ${OPENCLAW_IMAGE:-gemmahermes:local}
     environment:
       HOME: /home/node
       TERM: xterm-256color
@@ -49,9 +49,9 @@ services:
       retries: 5
       start_period: 20s
 
-  gemmaclaw-cli:
-    image: ${OPENCLAW_IMAGE:-gemmaclaw:local}
-    network_mode: "service:gemmaclaw-gateway"
+  gemmahermes-cli:
+    image: ${OPENCLAW_IMAGE:-gemmahermes:local}
+    network_mode: "service:gemmahermes-gateway"
     cap_drop:
       - NET_RAW
       - NET_ADMIN
@@ -75,4 +75,4 @@ services:
     init: true
     entrypoint: ["node", "dist/index.js"]
     depends_on:
-      - gemmaclaw-gateway
+      - gemmahermes-gateway

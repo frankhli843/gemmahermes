@@ -29,6 +29,6 @@ child.once("exit", (code, signal) => {
 
 child.once("error", (err) => {
   const msg = err instanceof Error ? err.message : String(err);
-  process.stderr.write(`gemmaclaw: failed to launch openclaw.mjs: ${msg}\n`);
+  process.stderr.write(`gemmahermes: failed to launch openclaw.mjs: ${msg}\n`);
   process.exit(1);
 });

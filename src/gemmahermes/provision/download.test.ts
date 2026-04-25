@@ -26,7 +26,7 @@ afterAll(async () => {
 describe("downloadFile", () => {
   let server: http.Server;
   let port: number;
-  const testContent = "Hello, Gemmaclaw!";
+  const testContent = "Hello, GemmaHermes!";
   const testSha256 = createHash("sha256").update(testContent).digest("hex");
 
   beforeAll(async () => {

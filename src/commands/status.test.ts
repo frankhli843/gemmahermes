@@ -1076,8 +1076,8 @@ describe("statusCommand", () => {
     expect(
       logs.some(
         (line) =>
-          line.includes("gemmaclaw status --all") ||
-          line.includes("gemmaclaw --profile isolated status --all"),
+          line.includes("gemmahermes status --all") ||
+          line.includes("gemmahermes --profile isolated status --all"),
       ),
     ).toBe(true);
     expect(logs.some((line) => line.includes("Cache"))).toBe(true);
@@ -1177,7 +1177,7 @@ describe("statusCommand", () => {
     const joined = await runStatusAndGetJoinedLogs();
     expect(joined).toContain("node → gateway.example.com:19000 · no local gateway");
     expect(joined).not.toContain("Gateway: local · ws://127.0.0.1:18789");
-    expect(joined).toContain("gemmaclaw --profile isolated node status");
+    expect(joined).toContain("gemmahermes --profile isolated node status");
     expect(joined).not.toContain("Fix reachability first");
   });
 

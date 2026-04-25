@@ -14,7 +14,7 @@ export async function provisionCommand(
 ): Promise<void> {
   // Lazy-load the provision module to keep CLI startup fast.
   const { provision, verifyCompletion, ALL_BACKENDS } =
-    await import("../gemmaclaw/provision/index.js");
+    await import("../gemmahermes/provision/index.js");
   type BackendId = (typeof ALL_BACKENDS)[number];
 
   const backend = opts.backend as BackendId | undefined;

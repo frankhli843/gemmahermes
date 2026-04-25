@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────────
-# Gemmaclaw Provision E2E Test
+# GemmaHermes Provision E2E Test
 #
 # Tests each backend in two modes:
 #   1. Direct provision: provisions backend, sends chat completion via curl.
-#   2. Agent run: runs `gemmaclaw setup` and validates the smoke test output.
+#   2. Agent run: runs `gemmahermes setup` and validates the smoke test output.
 #
 # Usage:
 #   ./provision-e2e.sh ollama       # Test Ollama backend
 #   ./provision-e2e.sh llama-cpp    # Test llama.cpp backend
-#   ./provision-e2e.sh gemma-cpp    # Test gemma.cpp backend (requires HF_TOKEN)
-#   ./provision-e2e.sh all          # Test all three
+#   ./provision-e2e.sh all          # Test all backends
 #
 # Environment variables:
-#   GEMMACLAW_HOME  — Override install directory (default: ~/.gemmaclaw)
+#   GEMMAHERMES_HOME  — Override install directory (default: ~/.gemmahermes)
 #   HF_TOKEN        — HuggingFace token (required for gemma-cpp)
 #   OLLAMA_TEST_MODEL — Override Ollama model for CI (default: qwen2.5:0.5b)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -23,7 +22,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Use the built CLI.
-GEMMACLAW="node ${REPO_ROOT}/gemmaclaw.mjs"
+GEMMAHERMES="node ${REPO_ROOT}/gemmahermes.mjs"
 
 PASS=0
 FAIL=0
@@ -64,11 +63,11 @@ test_backend() {
   fi
 
   log "Provisioning $backend on port $port..."
-  if ! $GEMMACLAW provision --backend "$backend" --port "$port" $model_flag 2>&1; then
-    log "DEBUG: GEMMACLAW_HOME=$GEMMACLAW_HOME HOME=$HOME"
+  if ! $GEMMAHERMES provision --backend "$backend" --port "$port" $model_flag 2>&1; then
+    log "DEBUG: GEMMAHERMES_HOME=$GEMMAHERMES_HOME HOME=$HOME"
     log "DEBUG: Models dir contents:"
-    find "${GEMMACLAW_HOME:-$HOME/.gemmaclaw}" -type f 2>/dev/null | head -20 || true
-    ls -laR "${GEMMACLAW_HOME:-$HOME/.gemmaclaw}/models/" 2>/dev/null || true
+    find "${GEMMAHERMES_HOME:-$HOME/.gemmahermes}" -type f 2>/dev/null | head -20 || true
+    ls -laR "${GEMMAHERMES_HOME:-$HOME/.gemmahermes}/models/" 2>/dev/null || true
     fail "$backend provision command failed"
     return 1
   fi
@@ -123,8 +122,8 @@ test_setup_wizard() {
   local backend="$1"
   log "Testing backend: $backend (setup wizard agent run)"
 
-  if [[ "$backend" == "gemma-cpp" ]] && [[ -z "${HF_TOKEN:-}" ]]; then
-    skip "$backend setup wizard (HF_TOKEN not set)"
+  if [[ "$backend" != "ollama" ]] && [[ "$backend" != "llama-cpp" ]]; then
+    skip "$backend setup wizard (unsupported backend)"
     return 0
   fi
 
@@ -142,7 +141,7 @@ test_setup_wizard() {
 
   # Run the setup command. For ollama/llama-cpp, quick mode auto-selects.
   # We use provision directly with expected backend to test deterministically.
-  output=$($GEMMACLAW provision --backend "$backend" $model_flag 2>&1) || exit_code=$?
+  output=$($GEMMAHERMES provision --backend "$backend" $model_flag 2>&1) || exit_code=$?
 
   if [[ $exit_code -ne 0 ]]; then
     fail "$backend setup wizard (exit code: $exit_code)"
@@ -200,15 +199,13 @@ case "$BACKENDS" in
     test_setup_wizard ollama
     test_backend llama-cpp
     test_setup_wizard llama-cpp
-    test_backend gemma-cpp
-    test_setup_wizard gemma-cpp
     ;;
-  ollama|llama-cpp|gemma-cpp)
+  ollama|llama-cpp)
     test_backend "$BACKENDS"
     test_setup_wizard "$BACKENDS"
     ;;
   *)
-    echo "Usage: $0 {ollama|llama-cpp|gemma-cpp|all}"
+    echo "Usage: $0 {ollama|llama-cpp|all}"
     exit 1
     ;;
 esac
