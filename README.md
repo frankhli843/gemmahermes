@@ -1,72 +1,65 @@
 # GemmaHermes
 
-GemmaHermes makes it easy to run the best Hermes model configuration for your hardware, out of the box. You tell it what you have (GPU, CPU, RAM), and it picks the right model, quantization, and backend so you can get a working Hermes-based assistant without tuning anything yourself. CPU-only setups are first-class, not an afterthought.
+One command to a working local Hermes assistant, regardless of your hardware.
 
-Built on top of the [OpenClaw](https://github.com/openclaw/openclaw) personal AI assistant framework. Volunteer-driven, Hermes-first.
+```bash
+npm install -g github:gemmahermes/gemmahermes#main
+gemmahermes setup     # detect hardware, download model, verify
+gemmahermes chat      # start chatting
+```
 
-## Goal
+Requires Node.js 22+. No pre-installed Ollama or llama.cpp needed.
 
-One command to a working Hermes assistant, regardless of what hardware you have.
+---
 
-- Detect your hardware tier (GPU model and VRAM, CPU cores, available RAM).
-- Select the best backend, model size, and quantization profile for that tier.
-- Fall back gracefully: high-end GPU setups get full-size models via Ollama, modest GPUs get smaller quants, and CPU-only machines get a viable path through llama.cpp.
-- Verify the result actually works (inference speed, memory headroom, tool-use reliability).
+GemmaHermes detects your hardware (GPU, CPU, RAM), picks the best model, quantization, and backend, and gets a working [Hermes](https://nousresearch.com/hermes/)-based assistant running without any manual tuning. CPU-only setups are first-class, not an afterthought.
 
-No manual model shopping. No "which quant do I pick?" guesswork. It just works.
+Built on top of [OpenClaw](https://github.com/openclaw/openclaw). Volunteer-driven, Hermes-first.
 
-## What is Hermes?
+## Chatting with your assistant
 
-[Hermes](https://nousresearch.com/hermes/) is a family of fine-tuned language models by [NousResearch](https://nousresearch.com/), optimized for instruction following, function calling, and structured output. Hermes models are available in multiple sizes and run on standard GGUF-compatible backends (Ollama, llama.cpp).
+After setup, start a conversation:
 
-## How it works
+```bash
+gemmahermes chat
+```
 
-1. **Hardware detection.** GemmaHermes probes your system: GPU vendor and VRAM, CPU architecture, total and available RAM.
-2. **Tier classification.** Based on what it finds, your machine is slotted into a hardware tier (e.g., "16 GB VRAM, mid-range GPU" or "CPU-only, 8 GB RAM").
-3. **Profile selection.** Each tier maps to a tested configuration profile: which backend to use (Ollama or llama.cpp), which Hermes model size, and which quantization level.
-4. **Provisioning.** GemmaHermes pulls the model and configures the backend automatically.
-5. **Verification.** A quick smoke test confirms the setup works: inference runs, latency is acceptable, and tool-use prompts parse correctly.
+This opens a terminal chat interface connected to your local Hermes model. Type messages, see responses with markdown rendering, and conversation history is preserved across the session.
 
-If something does not fit (too little RAM, unsupported GPU), GemmaHermes tells you what it tried and why it fell back, rather than silently degrading.
+You can also send a single message directly:
 
-## Non-GPU support
+```bash
+gemmahermes chat --message "What can you help me with?"
+```
 
-CPU-only is a first-class path, not a fallback afterthought.
+Options:
 
-- Hermes models run on CPU via llama.cpp with competitive performance on machines with 8 GB or more RAM.
-- Smaller Hermes variants (1B, 3B) are well-suited for constrained hardware.
-- The goal is that someone with a laptop and no discrete GPU can still get a useful local assistant running Hermes.
+| Flag | Description |
+|------|-------------|
+| `--message <text>` | Send an initial message after connecting |
+| `--session <key>` | Session key (default: "main") |
+| `--thinking <level>` | Thinking level override |
+| `--history-limit <n>` | History entries to load (default: 200) |
+| `--timeout-ms <ms>` | Agent timeout in milliseconds |
 
-## Roadmap
-
-**Phase 1: Evidence.** Benchmark Hermes models across hardware tiers, backends, and quantizations. Document what actually works, how fast, and at what quality. No opinions without data.
-
-**Phase 2: Productization.** Build the auto-detection and profile-selection tooling. Ship a `gemmahermes doctor` command that diagnoses your system and recommends (or provisions) the right setup. Package tested profiles so they work out of the box.
-
-**Phase 3: Community loop.** Open the profile registry to contributions. Users report what works on their hardware, profiles get refined, coverage grows. A working group keeps the evidence current as new Hermes releases land.
-
-## Status
-
-Phase 2 tooling is live: `gemmahermes setup` auto-detects hardware and provisions the best backend. Phase 1 benchmarks continue in parallel. Contributions and hardware reports are welcome.
-
-## Getting started
-
-### Prerequisites
-
-- Node.js 22+
-
-No pre-installed Ollama or llama.cpp required. GemmaHermes downloads and manages everything under `~/.gemmahermes/`.
+## Setup details
 
 ### Quick setup (recommended)
-
-Install the CLI globally, then run the setup wizard:
 
 ```bash
 npm install -g github:gemmahermes/gemmahermes#main
 gemmahermes setup
 ```
 
-That's it. The setup command detects your hardware, picks the best backend, downloads the model, and runs a smoke test. When it finishes, your Hermes assistant is ready.
+The setup command detects your hardware, picks the best backend, downloads the model, and runs a smoke test. When it finishes, your Hermes assistant is ready.
+
+### Advanced setup
+
+Step-by-step prompts to override backend, model, and port:
+
+```bash
+gemmahermes setup --advanced
+```
 
 ### Developer install
 
@@ -82,7 +75,7 @@ gemmahermes setup
 
 From a dev install you can also run commands directly via `node gemmahermes.mjs <command>`.
 
-Example output:
+### Example setup output
 
 ```
 Detecting hardware...
@@ -105,15 +98,29 @@ Setup complete! Your Hermes assistant is ready.
   PID: 12345
 ```
 
-### Advanced setup
+## How it works
 
-Step-by-step prompts to override backend, model, and port:
+1. **Hardware detection.** GemmaHermes probes your system: GPU vendor and VRAM, CPU architecture, total and available RAM.
+2. **Tier classification.** Based on what it finds, your machine is slotted into a hardware tier (e.g., "16 GB VRAM, mid-range GPU" or "CPU-only, 8 GB RAM").
+3. **Profile selection.** Each tier maps to a tested configuration profile: which backend to use (Ollama or llama.cpp), which Hermes model size, and which quantization level.
+4. **Provisioning.** GemmaHermes pulls the model and configures the backend automatically.
+5. **Verification.** A quick smoke test confirms the setup works: inference runs, latency is acceptable, and tool-use prompts parse correctly.
 
-```bash
-gemmahermes setup --advanced
-```
+If something does not fit (too little RAM, unsupported GPU), GemmaHermes tells you what it tried and why it fell back, rather than silently degrading.
 
-### Manual provisioning (advanced)
+## What is Hermes?
+
+[Hermes](https://nousresearch.com/hermes/) is a family of fine-tuned language models by [NousResearch](https://nousresearch.com/), optimized for instruction following, function calling, and structured output. Hermes models are available in multiple sizes and run on standard GGUF-compatible backends (Ollama, llama.cpp).
+
+## Non-GPU support
+
+CPU-only is a first-class path, not a fallback afterthought.
+
+- Hermes models run on CPU via llama.cpp with competitive performance on machines with 8 GB or more RAM.
+- Smaller Hermes variants (1B, 3B) are well-suited for constrained hardware.
+- The goal is that someone with a laptop and no discrete GPU can still get a useful local assistant running Hermes.
+
+## Manual provisioning
 
 `gemmahermes provision` is the low-level primitive. Use it when you know exactly what you want:
 
@@ -125,9 +132,9 @@ gemmahermes provision --backend ollama
 gemmahermes provision --backend llama-cpp
 ```
 
-### Verify it works
+## API access
 
-After setup or provisioning, the backend exposes a local chat completions endpoint. Test it:
+After setup or provisioning, the backend exposes a local chat completions endpoint:
 
 ```bash
 curl http://127.0.0.1:11434/v1/chat/completions \
@@ -137,16 +144,16 @@ curl http://127.0.0.1:11434/v1/chat/completions \
 
 Default ports: Ollama = 11434, llama.cpp = 8080.
 
-The API follows the [OpenAI Chat Completions format](https://platform.openai.com/docs/api-reference/chat/create), so any client or library that speaks that protocol will work out of the box. See the OpenAI docs for the full request/response schema if needed.
+The API follows the [OpenAI Chat Completions format](https://platform.openai.com/docs/api-reference/chat/create), so any client or library that speaks that protocol will work out of the box.
 
-### Troubleshooting
+## Troubleshooting
 
 - **Ollama download fails**: check network connectivity. The binary is downloaded from GitHub releases.
 - **llama.cpp server won't start**: verify the model file exists at `~/.gemmahermes/models/llama-cpp/`. Re-run provision to re-download.
 - **"Healthcheck failed"**: the backend process started but did not respond in time. Check system resources (RAM, disk).
 - **Port already in use**: another process is using the default port. Use `--port <N>` to pick a different one, or use advanced setup.
 
-### Data directory
+## Data directory
 
 All managed runtimes and models are stored under `~/.gemmahermes/` (override with `GEMMAHERMES_HOME`):
 
@@ -156,7 +163,7 @@ All managed runtimes and models are stored under `~/.gemmahermes/` (override wit
   models/         # Downloaded model files
 ```
 
-### Running E2E tests in Docker
+## Running E2E tests in Docker
 
 To verify all backends work from a clean environment:
 
@@ -171,6 +178,16 @@ docker run --rm gemmahermes-provision-e2e llama-cpp
 # Test all
 docker run --rm gemmahermes-provision-e2e all
 ```
+
+## Roadmap
+
+**Phase 1: Evidence.** Benchmark Hermes models across hardware tiers, backends, and quantizations. Document what actually works, how fast, and at what quality. No opinions without data.
+
+**Phase 2: Productization.** Build the auto-detection and profile-selection tooling. Ship a `gemmahermes doctor` command that diagnoses your system and recommends (or provisions) the right setup. Package tested profiles so they work out of the box.
+
+**Phase 3: Community loop.** Open the profile registry to contributions. Users report what works on their hardware, profiles get refined, coverage grows. A working group keeps the evidence current as new Hermes releases land.
+
+Phase 2 tooling is live. Phase 1 benchmarks continue in parallel. Contributions and hardware reports are welcome.
 
 ## Contributing
 
