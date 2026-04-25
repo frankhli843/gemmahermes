@@ -36,6 +36,9 @@ export const LLAMACPP_RUNTIME: RuntimeArtifact = {
     "https://github.com/ggerganov/llama.cpp/releases/download/{version}/llama-{version}-bin-ubuntu-x64.zip",
 };
 
+export const GEMMACPP_REPO = "https://github.com/google/gemma.cpp";
+export const GEMMACPP_TAG = "main";
+
 // -----------------------------------------------------------------------
 // Default models (smallest known-working for each backend)
 // -----------------------------------------------------------------------
@@ -54,6 +57,12 @@ export const DEFAULT_MODELS: Record<BackendId, ModelArtifact> = {
     backend: "llama-cpp",
     url: "https://huggingface.co/NousResearch/Hermes-3-Llama-3.1-8B-GGUF/resolve/main/Hermes-3-Llama-3.1-8B.Q4_K_M.gguf",
     sizeBytes: 4_920_000_000,
+  },
+  "gemma-cpp": {
+    id: "gemma-2b",
+    displayName: "Gemma 2B (gemma.cpp)",
+    backend: "gemma-cpp",
+    sizeBytes: 2_500_000_000,
   },
 };
 

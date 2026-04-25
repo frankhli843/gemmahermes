@@ -782,8 +782,9 @@ describe("config cli", () => {
       expect(helpText).toContain("--allow-exec");
       expect(helpText).toContain("gemmahermes config set gateway.port 19001 --strict-json");
       expect(helpText).toContain(
-        "gemmahermes config set channels.discord.token --ref-provider default --ref-source",
+        "gemmahermes config set channels.discord.token --ref-provider default",
       );
+      expect(helpText).toContain("--ref-source");
       expect(helpText).toContain("--ref-id DISCORD_BOT_TOKEN");
       expect(helpText).toContain(
         "gemmahermes config set --batch-file ./config-set.batch.json --dry-run",
