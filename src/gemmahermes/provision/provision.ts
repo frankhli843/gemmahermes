@@ -1,3 +1,4 @@
+import { createGemmaCppManager } from "./gemmacpp-manager.js";
 import { createLlamaCppManager } from "./llamacpp-manager.js";
 import { DEFAULT_MODELS } from "./model-registry.js";
 import { createOllamaManager } from "./ollama-manager.js";
@@ -16,6 +17,8 @@ export function createRuntimeManager(backend: BackendId): RuntimeManager {
       return createOllamaManager();
     case "llama-cpp":
       return createLlamaCppManager();
+    case "gemma-cpp":
+      return createGemmaCppManager();
     default:
       throw new Error(`Unknown backend: ${backend as string}`);
   }

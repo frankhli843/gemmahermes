@@ -74,6 +74,20 @@ export function validateBackendChoice(backend: BackendId, tools: SystemTools): s
   if (backend === "llama-cpp" && process.arch !== "x64") {
     return `llama.cpp pre-built binaries are x86_64 only. Your system is ${process.arch}. Consider using Ollama instead.`;
   }
+  if (backend === "gemma-cpp") {
+    if (!tools.gitInstalled) {
+      return "git is required to clone the gemma.cpp repository but was not found in PATH.";
+    }
+    if (!tools.cmakeInstalled) {
+      return "cmake is required to build gemma.cpp but was not found in PATH.";
+    }
+    if (!tools.cppCompilerInstalled) {
+      return "A C++ compiler (g++ or clang++) is required to build gemma.cpp but was not found.";
+    }
+    if (!process.env.HF_TOKEN) {
+      return "HF_TOKEN environment variable is required to download Gemma model weights from Hugging Face.";
+    }
+  }
   return null;
 }
 

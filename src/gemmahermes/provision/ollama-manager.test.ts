@@ -96,7 +96,7 @@ describe("createOllamaManager", () => {
 
     it("uses default model when empty string provided", async () => {
       await manager.pullModel("", port);
-      expect(lastPulledModel).toBe("gemma3:1b");
+      expect(lastPulledModel).toBe("hermes3:8b");
     });
 
     it("throws on pull error", async () => {
